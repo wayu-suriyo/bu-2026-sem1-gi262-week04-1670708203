@@ -53,20 +53,30 @@ namespace Solution
         IEnumerator MoveParade()
         {
             //0. สร้างหัวงู
-
+            Parade.AddFirst(this.gameObject);
             while (isAlive)
             {
                 // 1. ดึงส่วนแรกของงูออกมา
-
+                LinkedListNode<GameObject> firstNode = Parade.First;
+                GameObject firstPart = firstNode.Value;
                 // 2. ดึงส่วนสุดท้ายของงูออกมา
-             
+                LinkedListNode<GameObject> lastNode = Parade.Last;
+                GameObject lastPart = lastNode.Value;
                 // 3. ลบส่วนสุดท้ายออกจาก LinkedList
-
+                Parade.RemoveLast();
                 // 5. กำหนดตำแหน่งและทิศทางของส่วนที่ถูกย้ายมาใหม่
                 // ให้ไปอยู่ที่ตำแหน่งของส่วนหัวงู (ซึ่งเพิ่งเคลื่อนที่ไปเมื่อครู่)
-   
+                int toX = 0;
+                int toY = 0;
+                moveDirection = RandomizeDirection();     
+                toX = (int)(firstPart.transform.position.x + moveDirection.x);
+                toY = (int)(firstPart.transform.position.y + moveDirection.y);
                 //6. เคลื่อนที่
-
+                mapGenerator.mapdata[positionX, positionY] = null; 
+                positionX = toX;
+                positionY = toY;
+                lastPart.transform.position = new Vector3(positionX, positionY, 0);
+                mapGenerator.mapdata[positionX, positionY] = this;
                 // 7. เพิ่มส่วนนั้นกลับเข้าไปเป็นส่วนที่สองของ LinkedList
                 // (ซึ่งก็คือส่วนแรกของลำตัว)
 
